@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
-import App from './container/App';
+import App from './containers/App';
 
 
 const mathReducer = (state = {

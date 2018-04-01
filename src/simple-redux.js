@@ -1,12 +1,11 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger'
 
-const initialState = {
+
+const mathReducer = (state = {
     result: 1,
-    lastValues: [],
-    userName: 'Pradip'
-};
-
-const reducer = (state = initialState, action) => {
+    lastValues: []
+}, action) => {
     switch (action.type) {
         case "ADD":
             state = {
@@ -26,10 +25,40 @@ const reducer = (state = initialState, action) => {
     return state;
 };
 
-const store = createStore(reducer);
+const userReducer = (state = {
+    name: 'Pradip',
+    age: 35
+}, action) => {
+    switch (action.type) {
+        case "SET_NAME":
+            state = {
+                ...state,
+                name: action.data
+            }
+            break;
+        case "SET_AGE":
+            state = {
+                ...state,
+                age: action.data,
+            }
+            break;
+    }
+    return state;
+};
+
+const myLogger = (store) => (next) => (action) => {
+    console.log("Logged Action :: ", action);
+    next(action);
+};
+
+const store = createStore(
+    combineReducers({mathReducer, userReducer}),
+    {},
+    applyMiddleware(createLogger())
+);
 
 store.subscribe(() => {
-    console.log("Store updated :: ", store.getState());
+    //console.log("Store updated :: ", store.getState());
 })
 
 store.dispatch({
@@ -45,4 +74,14 @@ store.dispatch({
 store.dispatch({
     type: "SUBTRACT",
     data: 25
+});
+
+store.dispatch({
+    type: "SET_NAME",
+    data: 'Ganesh'
+});
+
+store.dispatch({
+    type: "SET_AGE",
+    data: '30'
 });

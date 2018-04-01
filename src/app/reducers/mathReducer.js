@@ -6,15 +6,15 @@ const mathReducer = (state = {
         case "ADD":
             state = {
                 ...state,
-                result: state.result + action.data,
-                lastValues: [...state.lastValues, action.data]
+                result: state.result + action.payload,
+                lastValues: [...state.lastValues, action.payload]
             }
             break;
         case "SUBTRACT":
             state = {
                 ...state,
-                result: state.result - action.data,
-                lastValues: [...state.lastValues, action.data]
+                result: state.result - action.payload,
+                lastValues: [...state.lastValues, action.payload]
             }
             break;
     }
